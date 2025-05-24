@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page d'Accueil - Classification d'Images</title>
+    <style>
+        body {
+            background: linear-gradient(120deg, #f5f5dc, #e6d4b8);
+            animation: background-slide 6s infinite alternate;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #4d4d4d;
+            overflow: hidden;
+        }
+
+        @keyframes background-slide {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .container {
+            text-align: center;
+            max-width: 1200px;
+            width: 80%;
+            animation: fade-in 1.5s ease-in-out;
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h1 {
+            font-size: 60px;
+            color: #6e4b3a;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1.2;
+            opacity: 0;
+            animation: slide-in 1s ease-out forwards;
+        }
+
+        @keyframes slide-in {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 32px;
+            color: #3e5c48;
+            margin-top: 0;
+            font-weight: 500;
+            letter-spacing: 1px;
+            opacity: 0;
+            animation: slide-in 1.5s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        .cta-button {
+            padding: 16px 30px;
+            background-color: #e74c3c;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .cta-button:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-container {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 400px;
+        }
+
+        .image-container dotlottie-player {
+            width: 80%;
+            max-width: 800px;
+            height: 100%;
+        }
+
+        /* Transition de page */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #e74c3c;
+            z-index: 100;
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 1s ease-in-out;
+        }
+
+        .page-transition.active {
+            transform: scaleY(1);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-transition" id="transition"></div>
+
+    <div class="container">
+        <h1>Interface Web pour la Classification d'Images</h1>
+        <h2>Avec Hyperparamètres Personnalisés</h2>
+        
+        <button class="cta-button" id="start-button">Commencer</button>
+
+        <div class="image-container">
+            <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+            <dotlottie-player src="https://lottie.host/9c0e9f43-3330-4e55-b78e-10d3908858bb/bcraJOtxRi.lottie" 
+                background="transparent" 
+                speed="1" 
+                style="width: 100%; height: 100%;" 
+                loop autoplay>
+            </dotlottie-player>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('start-button').addEventListener('click', function() {
+            const transition = document.getElementById('transition');
+            transition.classList.add('active');
+
+            setTimeout(() => {
+                window.location.href = 'acceuil.html';
+            }, 1000); // Attendre que la transition se termine avant de rediriger
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire Deep Learning</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #763910;
+        }
+        .container {
+            background: rgba(255, 255, 255, ); /* Fond blanc semi-transparent */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Légère ombre */
+            width: 100%;
+            max-width: 800px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        h2 {
+            text-align: center;
+            color:  #6c4f2d;
+            margin-bottom: 20px;
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            font-size: 24px;
+        }
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .form-group {
+            width: calc(50% - 20px);
+        }
+        label {
+            margin-bottom: 8px;
+            color: #553508;
+            font-weight: bold;
+            display: block;
+        }
+        input[type="number"],
+        input[type="text"],
+        input[type="file"],
+        select {
+            padding: 12px;
+            border: 1px solid #ed900d;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: box-shadow 0.3s, border-color 0.3s;
+        }
+        input[type="number"]:focus,
+        input[type="text"]:focus,
+        select:focus {
+            border-color: #1013ad;
+            box-shadow: 0 0 5px rgba(189, 144, 144, 0.921);
+        }
+        /* Amélioration de la gestion du range */
+        input[type="range"] {
+            appearance: none;
+            width: 100%;
+            height: 10px;
+            background: #d3d3d3; /* Couleur de fond de la barre */
+            border-radius: 10px;
+            outline: none;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        input[type="range"]:focus {
+            background: #cf9008; /* Couleur de fond de la barre quand elle est focalisée */
+            border-color: #000000; /* Bordure noire lors du focus */
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #ac7608; /* Couleur du curseur */
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #e4dce0; /* Couleur du curseur quand on survole */
+        }
+
+        input[type="range"]::-webkit-slider-runnable-track {
+            background: #ac3700;
+            border-radius: 5px;
+            height: 8px;
+        }
+
+        #batch_size_value {
+            display: block;
+            margin-top: -10px;
+            font-size: 16px;
+            color: #470f06;
+        }
+        .button-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        button[type="submit"] {
+            background-color:  #6c4f2d;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button[type="submit"]:hover {
+            background-color: #df9d0e;
+            transform: translateY(-2px);
+        }
+        button[type="submit"]:hover {
+            background-color: #a7700c;
+            transform: scale(1.05);
+        }
+        button[type="submit"]::before {
+            content: '🐾';
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            opacity: 0;
+            transition: top 0.4s ease, opacity 0.4s ease;
+        }
+        button[type="submit"]:hover::before {
+            top: -10px;
+            opacity: 1;
+        }
+        button[type="submit"]:active {
+            transform: scale(0.95);
+        }
+        button[type="submit"]:active {
+            transform: translateY(0);
+        }
+
+        /* Scrollbar styling for modern look */
+        .container::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .container::-webkit-scrollbar-thumb {
+            background: #8c5116;
+            border-radius: 10px;
+        }
+
+        .container::-webkit-scrollbar-thumb:hover {
+            background: #e2a50a;
+        }
+
+        .container::-webkit-scrollbar-track {
+            background: #b9b0b0;
+            border-radius: 10px;
+        }
+        body::before {
+            content: "";
+            background: url('frame-with-animals.jpg') no-repeat center/cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+            transition: opacity 2s ease;
+        }
+        .form-group.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .form-group {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Paramètres du modèle Deep Learning-Classification chiens🐶 </h2>
+        <form action="images.php" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="epochs">Epochs:</label>
+                <input type="number" id="epochs" name="epochs" min="10" max="50" required>
+            </div>
+            <div class="form-group">
+                <label for="batch_size">Batch Size:</label>
+                <input 
+                    type="range" 
+                    id="batch_size" 
+                    name="batch_size" 
+                    min="-4" 
+                    max="0" 
+                    step="0.1" 
+                    required 
+                    oninput="updateValue(this)">
+                <span id="batch_size_value">1e-4</span>
+            </div>
+            <div class="form-group">
+                <label for="patience">Patience:</label>
+                <input 
+                    type="number" 
+                    id="patience" 
+                    name="patience" 
+                    required 
+                    oninput="validatePatience(this)">
+            </div>
+            <div class="form-group">
+                <label for="Monitor">Monitor:</label>
+                <select id="Monitor" name="Monitor" required>
+                    <option value="val_loss">val_loss</option>
+                    <option value="val_accuracy">val_accuracy</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="optimizer">Optimiseur:</label>
+                <select id="optimizer" name="optimizer" required>
+                    <option value="adam">Adam</option>
+                    <option value="sgd">SGD</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="model_name">Model Name:</label>
+                <input type="text" id="model_name" name="model_name" required>
+            </div>
+            <div class="form-group">
+                <label for="activation_function">Activation Function:</label>
+                <select id="activation_function" name="activation_function" required>
+                    <option value="sigmoid">sigmoid</option>
+                    <option value="relu">relu</option>
+                    <option value="tanh">tanh</option>
+                    <option value="softmax">softmax</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="validation_split">Validation Split:</label>
+                <select id="validation_split" name="validation_split" required>
+                    <option value="0.1">0.1</option>
+                    <option value="0.2">0.2</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="test_split">Test Split:</label>
+                <select id="test_split" name="test_split" required>
+                    <option value="0.1">0.1</option>
+                    <option value="0.2">0.2</option>
+                </select>
+            </div>
+            <div class="form-group">  
+                <label for="directory">Répertoire de base de données:</label>
+                <input type="text" id="directory_input" name="directory" required placeholder="Sélectionner le répertoire" readonly>
+                <input type="file" id="directory" webkitdirectory style="display: none;" onchange="updateDirectoryInput()">
+                <button type="button" onclick="document.getElementById('directory').click()">Choisir le Répertoire</button>
+            </div>
+
+            <div class="button-container">
+                <button type="submit">Lancer le modèle </button>
+            </div>
+        </form>
+    </div>
+    <script>
+        function updateDirectoryInput() {
+            const directoryInput = document.getElementById('directory_input');
+            const files = document.getElementById('directory').files;
+            if (files.length > 0) {
+                // Récupérer le chemin relatif du premier fichier
+                const path = files[0].webkitRelativePath.split('/')[0];
+                directoryInput.value = path;
+            }
+        }
+
+         // Mise à jour du slider Batch Size
+         function updateValue(val) {
+            document.getElementById('batch_size_value').textContent = val;
+        }
+
+    
+            // Make each form field appear with a delay for smooth transition
+            const formGroups = document.querySelectorAll(".form-group");
+            formGroups.forEach((group, index) => {
+                setTimeout(() => {
+                    group.classList.add("visible");
+                }, index * 150); // Delay each form group visibility
+            });
+            function updateValue(rangeInput) {
+        // Convert the linear value to a power of 10
+        const value = Math.pow(10, rangeInput.value);
+        // Update the display
+        document.getElementById('batch_size_value').textContent = value.toExponential(1);
+    }
+    function validatePatience(input) {
+        const validValues = [3, 5, 7];
+        const value = parseInt(input.value, 10);
+
+        // Si la valeur n'est pas valide, réinitialiser l'entrée
+        if (!validValues.includes(value)) {
+            input.value = '';
+            alert('Veuillez entrer une des valeurs suivantes : 3, 5 ou 7.');
+        }
+    }
+
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire d'Inscription - Chiens</title>
+    <style>
+        /* Animation de sortie */
+        body.page-exit {
+            animation: fadeOut 1s forwards; /* Animation de disparition */
+        }
+
+        /* Animation d'apparition */
+        body {
+            animation: fadeIn 1s; /* Animation d'apparition au chargement */
+        }
+
+        /* Définition des animations */
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.9); /* Réduction de taille pour l'effet */
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+
+        body {
+            background: linear-gradient(120deg, #f5f5dc, #e6d4b8);
+            background-size: cover;  /* Cela permet de redimensionner l'image pour couvrir toute la page */
+            background-position: center;  /* Cela centre l'image */
+            background-attachment: fixed;  /* L'image reste fixe lorsque vous faites défiler la page */
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #6c4f2d;
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-bottom: 3px solid #f5a623;
+            padding-bottom: 10px;
+            width: fit-content;
+            margin: 0 auto 20px;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .left-section {
+            width: 60%;
+        }
+
+        .right-section {
+            width: 35%;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            text-align: left;
+            font-weight: 600;
+            color: #6c4f2d;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #f5a623;
+            outline: none;
+            box-shadow: 0 0 5px rgba(245, 166, 35, 0.3);
+        }
+
+        .error-border {
+            border: 1px solid red;
+        }
+        
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+        }
+        
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .buttons button {
+            padding: 14px;
+            width: 48%;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .buttons button[type="submit"] {
+            background-color: #6c4f2d;
+        }
+
+        .buttons button[type="reset"] {
+            background-color: #e74c3c;
+        }
+
+        .buttons button:hover {
+            opacity: 0.9;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+        }
+
+        .toggle-password:hover {
+            color: #8b226c;
+        }
+
+        .video-container {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        dotlottie-player {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .buttons button:active {
+            transform: scale(0.98);
+        }
+        .buttons button[type="submit"] {
+            background-color: #6c4f2d;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .buttons button[type="submit"]::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100%;
+            background-color: rgba(168, 109, 25, 0.2);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        
+        .buttons button[type="submit"]:hover::after {
+            opacity: 1;
+            transform: scale(2);
+        }
+        
+        
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="left-section">
+            <h2>Inscription</h2>
+            <form action="inscrit.php" method="POST" id="registrationForm">
+                <div class="form-group">
+                    <label for="Login">Login<span class="required" style="color: #dc3545;">*</span></label>
+                    <input type="text" id="Login" name="Login" required>
+                </div>
+                <div class="form-group">
+                    <label for="prenom">Prénom<span class="required" style="color: #dc3545;">*</span></label>
+                    <input type="text" id="prenom" name="prenom" required>
+                </div>
+                <div class="form-group">
+                    <label for="nom">Nom<span class="required" style="color: #dc3545;">*</span></label>
+                    <input type="text" id="nom" name="nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Adresse Email<span class="required" style="color: red;">*</span></label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="motdepasse">Mot de passe<span class="required" style="color: #dc3545;">*</span></label>
+                    <input type="password" id="motdepasse" name="motdepasse" required>
+                    <span class="toggle-password" onclick="togglePassword()">👁️</span>
+                </div>
+                <div class="buttons">
+                    <button type="submit">Valider</button>
+                    <button type="reset" id="cancel">Annuler</button>
+                </div>
+            </form>
+        </div>
+        <div class="right-section">
+            <div class="video-container">
+                <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+                <dotlottie-player src="https://lottie.host/a2af7130-3745-4884-9f9c-2819bfcf90fa/rXzTkuT1pW.lottie" background="transparent" speed="1" style="width: 100%; height: 100%" loop autoplay></dotlottie-player>
+            </div>
+        </div>
+    </div>
+
+    <script>
+            // Fonction pour afficher les erreurs
+        function showError(field, message) {
+            const error = document.createElement('div');
+            error.className = 'error-message';
+            error.innerText = message;
+            field.parentNode.appendChild(error);
+        }
+
+        // Validation du formulaire
+        document.getElementById('registrationForm').addEventListener('submit', async function (event) {
+            event.preventDefault(); // Empêche le rechargement de la page
+
+            // Suppression des anciens messages d'erreur
+            document.querySelectorAll('.error-message').forEach(error => error.remove());
+
+            let valid = true;
+            const prenomField = document.getElementById('prenom');
+            const nomField = document.getElementById('nom');
+            const emailField = document.getElementById('email');
+            const passwordField = document.getElementById('motdepasse');
+            const fields = [prenomField, nomField, emailField, passwordField];
+
+            // Suppression des anciens styles d'erreur
+            fields.forEach(field => field.classList.remove('error-border'));
+
+            // Vérifications des champs obligatoires
+            fields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('error-border');
+                    showError(field, "Ce champ est obligatoire.");
+                    valid = false;
+                }
+            });
+
+            // Modèles de validation
+            const namePattern = /^[a-zA-ZÀ-ÿ\s-]+$/;
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
+
+            if (prenomField.value.trim() && !namePattern.test(prenomField.value)) {
+                valid = false;
+                showError(prenomField, "Le prénom n'est pas valide.");
+            }
+
+            if (nomField.value.trim() && !namePattern.test(nomField.value)) {
+                valid = false;
+                showError(nomField, "Le nom n'est pas valide.");
+            }
+
+            if (emailField.value.trim() && !emailPattern.test(emailField.value)) {
+                valid = false;
+                showError(emailField, "L'email n'est pas valide.");
+            }
+            if (passwordField.value.trim() && !passwordPattern.test(passwordField.value.trim())) {
+                valid = false;
+                showError(passwordField, "Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.");
+            }
+
+            if (!valid) return; // Stoppe l'exécution si le formulaire n'est pas valide
+
+            // Envoi des données via fetch à PHP
+            const formData = new FormData(this);
+            try {
+                const response = await fetch('inscrit.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(result.message);
+                    document.body.classList.add('page-exit');
+                    setTimeout(() => {
+                        window.location.href = 'authent.html'; // Redirection après animation
+                    }, 1000);
+                } else {
+                    // Affiche les erreurs renvoyées par PHP
+                    if (result.errors && result.errors.email) {
+                        showError(emailField, result.errors.email);
+                    } else {
+                        alert(result.message);
+                    }
+                }
+            } catch (error) {
+                alert("Erreur lors de l'envoi des données. Veuillez réessayer.");
+            }
+        });
+
+        // Toggle mot de passe
+        function togglePassword() {
+            const passwordField = document.getElementById('motdepasse');
+            passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
+        }
+
+        // Animation de page d'entrée et sortie
+        window.addEventListener('beforeunload', function () {
+            document.body.classList.add('page-exit');
+        });
+
+        window.addEventListener('load', function () {
+            document.body.classList.remove('page-exit');
+        });
+
+        document.getElementById('cancel').addEventListener('click', function(event) {
+            if (!confirm("Êtes-vous sûr de vouloir réinitialiser le formulaire ?")) {
+                event.preventDefault();
+            }
+        });
+        
+
+    </script>
+</body>
+</html>

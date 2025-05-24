@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page d'authentification - Thème Chiens</title>
+    <style>
+
+          /* Animation de sortie */
+          body.page-exit {
+            animation: fadeOut 1s forwards; /* Animation de disparition */
+        }
+
+        /* Animation d'apparition */
+        body {
+            animation: fadeIn 1s; /* Animation d'apparition au chargement */
+        }
+
+        /* Définition des animations */
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.9); /* Réduction de taille pour l'effet */
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+       /* Transition Flip Horizontal */
+        body.loading {
+            opacity: 0.5;
+            transform: rotateY(180deg); /* Rotation de 180 degrés sur l'axe Y */
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        body {
+            background: linear-gradient(120deg, #f5f5dc, #e6d4b8);
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 900px;  
+            height: 400px; 
+            background-color: rgba(255, 255, 255, 0.8); /* Fond semi-transparent pour lisibilité */
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .left-section {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .right-section {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #6c4f3d; /* Couleur marron foncé */
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-bottom: 2px solid #e67e22; /* Ligne orange pour rappeler l'amitié chaleureuse */
+            padding-bottom: 10px;
+            margin: 0 auto 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            text-align: left;
+            font-weight: 600;
+            color: #6c4f3d;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #d35400; /* Bordure orange vif */
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border 0.2s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #e67e22;  /* Changement de couleur au focus */
+            outline: none;
+        }
+
+        .error-border {
+            border: 2px solid red;
+        }
+        
+        .error-message {
+            font-size: 0.9em;
+            color: red;
+            margin-top: 5px;
+        }
+        
+
+        .buttons {
+            padding:10px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .buttons button {
+            padding: 14px;
+            width: 48%;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .buttons button[type="submit"] {
+            background-color: #6c4f2d;  /* Couleur bleue pour le bouton de connexion */
+        }
+
+        .buttons button[type="reset"] {
+            background-color: #e74c3c;  /* Couleur rouge pour le bouton d'annulation */
+        }
+
+        .buttons button:hover {
+            opacity: 0.9;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-container {
+            width: 100%;  
+            height: 1000%;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6c4f3d; /* Icône de mot de passe en marron */
+        }
+
+        .toggle-password:hover {
+            color: #f1872a;  /* Changement de couleur au survol */
+        }
+        .buttons button:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .auth-container {
+            transition: transform 0.3s ease;
+        }
+        .auth-container:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Section gauche : Formulaire de connexion -->
+        <div class="left-section">
+            <div class="auth-container">
+                <h2>Connexion</h2>
+                <form id="loginForm" action="login.php" method="post">
+                    <div class="form-group">
+                        <label for="login">Login</label>
+                        <input type="text" id="login" name="login" required placeholder="Entrez votre login">
+                        <div class="error" id="loginError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="motdepasse">Mot de passe</label>
+                        <input type="password" id="motdepasse" name="motdepasse" required placeholder="Entrez votre mot de passe">
+                        <span class="toggle-password" onclick="togglePassword()">
+                            👁️
+                        </span>
+                        <div class="error" id="passwordError"></div>
+                    </div>
+                    <a href="forgot-password.html" style="color: #6c4f3d; font-size: 0.9em;">Mot de passe oublié?</a>
+                    <a href="inscrire.html" style="color: #e67e22; font-size: 1em; font-weight: bold;">Créer un compte</a>
+                    
+                    <div class="buttons">
+                        <button type="submit">Se connecter</button>
+                        <button type="reset" id="cancel">Annuler</button>
+                    </div>
+                    
+                    
+                </form>
+            </div>
+        </div>
+
+   <!-- Section droite : Vidéo -->
+<div class="right-section">
+    <div class="video-container">
+        <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+        <dotlottie-player src="https://lottie.host/2e86d2b1-a31a-4458-b6d8-eecbaf9249cd/rT2LnynUPM.lottie" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></dotlottie-player>
+    </div>
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async function (event) {
+        event.preventDefault(); // Empêche le rechargement de la page
+
+        let valid = true;
+        const login = document.getElementById('login');
+        const motdepasse = document.getElementById('motdepasse');
+        const fields = [login, motdepasse];
+
+        // Suppression des anciens styles et erreurs
+        fields.forEach(field => {
+            field.classList.remove('error-border');
+            const existingError = field.parentNode.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+        });
+
+        // Vérifications des champs obligatoires
+        fields.forEach(field => {
+            if (!field.value.trim()) {
+                field.classList.add('error-border');
+                showError(field, "Ce champ est obligatoire.");
+                valid = false;
+            }
+        });
+
+        // Vérification spécifique pour le mot de passe
+        const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
+        if (motdepasse.value.trim() && !passwordPattern.test(motdepasse.value.trim())) {
+            valid = false;
+            showError(motdepasse, "Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.");
+        }
+
+        if (!valid) return;
+
+        // Envoi des données via fetch à PHP
+        const formData = new FormData(this);
+        try {
+            const response = await fetch('login.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert(result.message);
+                // Ajout de la transition avant la redirection
+              loader(500); // Délai de démarrage de la transition
+
+              document.body.classList.add('flipX'); // Applique la rotation flipX
+              setTimeout(() => {
+                  window.location.href = 'formulaire.html'; // Redirection après la transition
+              }, 2500);
+            } else {
+                // Affiche les erreurs renvoyées par PHP
+                if (result.errors) {
+                    if (result.errors.login) {
+                        showError(login, result.errors.login);
+                    }
+                    if (result.errors.motdepasse) {
+                        showError(motdepasse, result.errors.motdepasse);
+                    }
+                } else {
+                    alert(result.message);
+                }
+            }
+        } catch (error) {
+            alert("Erreur lors de l'envoi des données. Veuillez réessayer.");
+        }
+    });
+
+    function showError(field, message) {
+        const existingError = field.parentNode.querySelector('.error-message');
+        if (existingError) {
+            existingError.remove();
+        }
+
+        const error = document.createElement('div');
+        error.className = 'error-message';
+        error.style.color = 'red';
+        error.innerText = message;
+        field.parentNode.appendChild(error);
+    }
+
+    function togglePassword() {
+        const passwordInput = document.getElementById('motdepasse');
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+    }
+
+    document.getElementById('cancel').addEventListener('click', function(event) {
+        if (!confirm("Êtes-vous sûr de vouloir réinitialiser le formulaire ?")) {
+            event.preventDefault();
+        }
+    });
+
+    function loader(delay) {
+        const body = document.querySelector('body');
+      
+        setTimeout(function () {
+            body.classList.add('loading');
+        }, delay);
+      
+        setTimeout(function () {
+            body.classList.add('loaded');
+        }, delay + 1700);
+      
+        setTimeout(function () {
+            body.classList.remove('restart');
+            body.classList.add('new-page');
+        }, delay + 1950);
+    }
+    
+
+
+    </script>
+</body>
+</html>

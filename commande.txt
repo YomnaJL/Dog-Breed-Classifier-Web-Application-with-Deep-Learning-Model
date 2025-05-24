@@ -1,0 +1,12 @@
+Après avoir fait des changements, utilisez la commande suivante pour ajouter les modifications :
+----> git add .
+Ensuite, effectuez un commit pour enregistrer vos modifications localement avec un message descriptif :
+---> git commit -m "Message décrivant les modifications"
+6. Pousser les Modifications sur GitHub
+Envoyez vos modifications sur GitHub en utilisant la commande :
+
+---> git push origin main
+
+
+Synchroniser les Modifications:
+-----> git pull origin main
